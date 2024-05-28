@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.major-mono-display-regular {
+    font-family: "Major Mono Display", monospace;
+  }
+  .poetsen-one-regular {
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
