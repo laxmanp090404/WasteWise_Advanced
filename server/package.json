@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "npx nodemon server.js",
-    "start": "node server.js"
+    "server": "npx nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +19,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pm2": "^5.4.0"
   }
 }

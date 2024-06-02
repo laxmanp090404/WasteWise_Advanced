@@ -21,3 +21,15 @@ exports.createStation = async(req,res)=>{
         res.status(500).json({ message: "Error creating station" });
     }
 }
+
+exports.getStations=async(req,res)=>{
+ try {
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, content-type");
+
+    const Stations = await StationModel.find();
+    res.json(Stations)
+ } catch (error) {
+    console.error("Error getting stations:", error);
+        res.status(500).json({ message: "Error getting stations" });
+ }
+}

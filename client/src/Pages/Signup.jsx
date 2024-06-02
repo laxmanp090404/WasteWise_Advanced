@@ -17,7 +17,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:8000/user/createuser', {
+      const res = await axios.post(import.meta.env.VITE_SERVER+'/user/createuser', {
         firstname,
         lastname,
         email,
@@ -51,8 +51,12 @@ const Signup = () => {
   };
 
   return (
+    <>
+    <Toaster />
+    <>
+         
     <div className="relative w-full h-screen bg-[url('https://www.shutterstock.com/image-photo/cityscape-office-buildings-modern-corporate-600nw-1935450535.jpg')] bg-cover bg-center">
-      <Toaster />
+ 
       <div className="absolute inset-0 bg-black/50"></div>
       <div className="relative z-10 container mx-auto flex h-full items-center justify-center px-4 py-12 md:px-6 lg:px-8">
         <div className="grid w-full max-w-5xl grid-cols-1 items-center rounded-lg bg-white shadow-xl md:grid-cols-2">
@@ -191,7 +195,7 @@ const Signup = () => {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                   >
-                    <option value="user">User</option>
+                    <option value="user" className=''>User</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
@@ -208,6 +212,8 @@ const Signup = () => {
         </div>
       </div>
     </div>
+    </>
+    </>
   );
 }
 

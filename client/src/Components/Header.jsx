@@ -36,7 +36,9 @@ const Header = ({ username, role }) => {
  }
   return (
     <>
-      <Toaster />
+    <Toaster/>
+    <>
+     
       <header className={role === "admin"?'bg-gradient-r from-green-400 to bg-green-400 via-bg-green-300 text-white px-[3vh] py-[2vh] text-md flex items-center justify-between':"px-[3vh] py-[2vh] text-md flex items-center justify-between "}>
         <figure className='flex items-center space-x-2'>
           <img src="/assets/logo1.png" alt="logo" className='w-[32px] h-[32px]' />
@@ -91,6 +93,7 @@ const Header = ({ username, role }) => {
           </div>
         )}
       </header>
+    </>
     </>
   );
 }

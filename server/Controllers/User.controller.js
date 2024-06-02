@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 exports.getUser = async (req, res) => {
   try {
+    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL);
     const userId = req.userId; // This is set by the verifyToken middleware
     const user = await UserModel.findById(userId).select('-password');
     if (!user) {
@@ -42,6 +43,8 @@ exports.createUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
+    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ empty: true, message: "Email and password are required" });
@@ -81,3 +84,38 @@ exports.logoutUser = async (req, res) => {
     res.status(500).json({ message: "Error at logoutUser controller" });
   }
 };
+
+exports.updateUser = async(req,res) =>{
+  try {
+    const userId = req.userId;
+    const { firstname, lastname, location, mobile} = req.body;
+    //to store new fields
+    const updateFields = {};
+    if (firstname) updateFields.firstname = firstname;
+    if (lastname) updateFields.lastname = lastname;
+    if (location) updateFields.location = location;
+    if (mobile){
+         if(mobile.length === 10){
+          updateFields.mobile = mobile;
+         }
+         else{
+          res.status(204).json({message:"Mobile Number is not of valid length"})
+          process.exit()
+         }
+    } 
+     
+    
+    
+    //new true means it the findByIDupdate will return the updated document
+    //instead of the old doc
+    const updatedUser = await UserModel.findByIdAndUpdate(userId, updateFields, { new: true });
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user: updatedUser, message: "User updated successfully" });
+
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Error updating user" });
+  }
+}

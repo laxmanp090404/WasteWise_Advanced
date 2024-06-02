@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  
   axios.defaults.withCredentials = true;
 
   const handleSubmit = (e) => {
@@ -21,13 +22,14 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(`http://localhost:8000/user/loginuser`, {
+      const res = await axios.post(import.meta.env.VITE_SERVER+`/user/loginuser`, {
         email,
         password,
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials:true,
       });
 
       const result = res.data;
@@ -56,7 +58,7 @@ const Login = () => {
 
   return (
     <>
-      <Toaster />
+      <Toaster className="z-50"/>
       <div className="relative w-full h-screen bg-[url('/assets/bg1.jpg')] bg-cover bg-center">
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 container mx-auto flex h-full items-center justify-center px-4 py-12 md:px-6 lg:px-8">

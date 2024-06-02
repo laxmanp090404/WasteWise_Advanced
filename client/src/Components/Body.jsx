@@ -1,115 +1,150 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, useLoadScript, MarkerF, InfoWindow } from '@react-google-maps/api';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import "leaflet/dist/leaflet.css";
+import { Icon } from 'leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
-const binMarkers = [
-  {
-    id: 1,
-    name: "Vinayaga Garden Center",
-    location: "WX9P+7V, Eachanari, Tamil Nadu 641021",
-    binlevel: 90 
-  },{
-    id: 2,
-    name: "L and L Center",
-    location: "W243+42 Malumichampatti, Tamil Nadu",
-    binlevel: 75,
-  },
-  {
-    id: 3,
-    name: "Chandran Center",
-    location: "WX7J+5M Eachanari, Tamil Nadu, India",
-    binlevel: 75,
-  }
-];
+// Custom icons
+const binIcon = new Icon({
+  iconUrl: "/assets/binmarker.png",
+  iconSize: [50, 50]
+});
 
+const centerIcon = new Icon({
+  iconUrl: "/assets/CENTER_ICON.png",
+  iconSize: [50, 50]
+});
+
+// Geocoding function to get coordinates from an address using Distance Matrix API
 const geocode = async (address) => {
+  if (!address) {
+    console.error('No address provided for geocoding.');
+    return null;
+  }
+
+  const apiKey = import.meta.env.VITE_DISTAI_API_KEY1;  // Replace with your actual API key
+  const encodedAddress = encodeURIComponent(address);
+  const apiUrl = `https://api.distancematrix.ai/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+
   try {
-    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: address,
-        key: import.meta.env.VITE_GOOGLE_MAP_API_KEY
-      },
-      withCredentials: false,
-      headers: null
-    });
-    
-    const data = response.data;
-    
-    if (data.status === 'OK') {
-      return data.results[0].geometry.location;
+    const response = await axios.get(apiUrl);
+    if (response.data.status === 'OK' && response.data.result.length > 0) {
+      const { lat, lng } = response.data.result[0].geometry.location;
+      return [lat, lng];
     } else {
-      console.log(`Geocoding failed: ${data.status}`);
+      console.error('No results found for address:', address);
     }
   } catch (error) {
-    console.error('Error making request:', error);
+    console.error('Error geocoding address:', error);
   }
   return null;
 };
 
 const Body = () => {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY
-  });
-  const [activeMarker, setActiveMarker] = useState(null);
+  const [centerPosition, setCenterPosition] = useState(null); // Initial null state
   const [markers, setMarkers] = useState([]);
+  const user = useSelector((store) => store.user.details);
+  const role = user?.roles?.[0] || "";
+  const [binreq,setBinReq] = useState(0);
+
 
   useEffect(() => {
-    const fetchGeocode = async () => {
-      const updatedMarkers = await Promise.all(binMarkers.map(async (marker) => {
-        const position = await geocode(marker.location);
-        return {
-          ...marker,
-          position
-        };
-      }));
-      setMarkers(updatedMarkers);
+    const fetchMarkers = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_SERVER}/stations/getall`);
+        const updatedMarkers = await Promise.all(res.data.map(async (marker) => {
+          const position = await geocode(marker.location);
+          return {
+            ...marker,
+            position
+          };
+        }));
+        setMarkers(updatedMarkers.filter(marker => marker.position));
+      } catch (error) {
+        console.error("Error fetching markers:", error);
+      }
     };
 
-    fetchGeocode();
-  }, []);
+    const fetchCenterPosition = async () => {
+      const position = await geocode(user.location);
+      console.log("Position", position)
+      if (position) {
+        setCenterPosition(position);
+      } else {
+        console.error('Center position could not be determined.');
+      }
+    };
 
-  const handleActiveMarker = (marker) => {
-    if (marker === activeMarker) {
-      return;
-    }
-    setActiveMarker(marker);
-  };
+    fetchMarkers();
+    fetchCenterPosition();
+  }, [user.location]);
+
+  if (!centerPosition) {
+    return <div>Loading...</div>; // Or a loading spinner
+  }
 
   return (
-    <div className='w-[100%] h-[90vh]'>
-      {isLoaded ? (
-        <GoogleMap
-          center={{ lat: 10.906329580038504, lng: 77.00308059211149 }}
-          zoom={16}
-          mapContainerStyle={{
-            width: '100%',
-            height: '90vh'
-          }}
-        >
-          {markers.map(({ id, name, position }) => (
-            position && (
-              <MarkerF
-                key={id}
+    <>
+      <Toaster />
+      <div className='w-[100%] h-[90vh]'>
+        {console.log(centerPosition)}
+        <MapContainer center={centerPosition} zoom={16} style={{ width: '100%', height: '90vh' }} className='z-0'>
+          <TileLayer
+            attribution="Google Maps"
+            url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" // regular
+            maxZoom={20}
+            subdomains={["mt0", "mt1", "mt2", "mt3"]}
+          />
+          <Marker position={centerPosition} icon={centerIcon}>
+            <Popup>
+              <div className='w-[250px] text-xl font-bold bg-white p-3 text-center flex flex-col space-y-4  rounded-lg'>
+                <h2>👋Hello {user.firstname}</h2>
+                <p>This is your location</p>
+              </div>
+            </Popup>
+          </Marker>
+
+          <MarkerClusterGroup>
+            {markers.map(({ _id, name, position, binlevel }) => position && (
+              <Marker
+                key={_id}
                 position={position}
-                onClick={() => handleActiveMarker(id)}
-                icon={{
-                  url: "/assets/binmarker.png",
-                  scaledSize: { width: 50, height: 50 }
-                }}
+                icon={binIcon}
               >
-                {activeMarker === id ? (
-                  <InfoWindow onCloseClick={() => { setActiveMarker(null) }}>
-                    <div>
-                      {name}
-                    </div>
-                  </InfoWindow>
-                ) : null}
-              </MarkerF>
-            )
-          ))}
-        </GoogleMap>
-      ) : null}
-    </div>
+                <Popup>
+                  <div className='flex items-center justify-center'>
+                    {
+                      role === "admin" ? (<div className=' w-[250px] rounded-lg pb-5 flex flex-col items-center justify-center space-y-2 '>
+                        <p className='bg-green-600 text-white w-full h-[2rem]  text-xl rounded-t-lg flex items-center justify-center'><span>{name}</span></p>
+                        <div className="details flex flex-col space-y-3 items-center justify-center">
+                          <p className='text-5xl'>{binlevel}</p>
+                          <p className='text-green-400'>Total Capacity in Kgs</p>
+                          <button className='text-lg hover:bg-[#f05656] bg-[#ee3a3a] px-5 py-2 rounded-xl text-white'>Delete Center</button>
+                        </div>
+                      </div>) : (<div className=' w-[250px] rounded-lg pb-5 flex flex-col items-center justify-center space-y-2 '>
+                        <p className='bg-green-600 text-white w-full h-[2rem]  text-xl rounded-t-lg flex items-center justify-center'><span>{name}</span></p>
+                        <div className="details flex flex-col space-y-1 items-center justify-center">
+                          <p className='text-4xl py-0'>{binlevel}</p>
+                          <p className='text-green-400'>Total Capacity in Kgs</p>
+
+                          <p className='text-4xl'>{binreq}</p>
+                          <input type='range' className='w-full bg-green-700' min={1} max={binlevel} value={binreq} onChange={(e) => { setBinReq(e.target.value) }} />
+                          <p className='text-green-700'>Required Capacity in Kgs</p>
+                          <button className='text-lg text-white hover:bg-[#f05656] bg-[#ee3a3a] px-5 py-2 rounded-xl'>Book Center</button>
+                        </div>
+                      </div>)
+                    }
+                  </div>               
+                  </Popup>
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
+        </MapContainer>
+      </div>
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import { addUser, loginState } from './Slices/userSlice';
-import { Toaster } from 'react-hot-toast';
+
 
 function App() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function App() {
     
     const getUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/user/getuser`, { withCredentials: true });
+        const response = await axios.get(import.meta.env.VITE_SERVER+`/user/getuser`, { withCredentials: true });
         const user = response.data.user;
         if (user) {
           dispatch(addUser(user));
@@ -36,12 +36,16 @@ function App() {
   }, [dispatch, navigate, isLoggedIn]);
   const username = userDetails?.firstname || '';
   const role = userDetails?.roles?.[0] || '';
+
+  
   return (
     <>
-      <Toaster />
+     
       <Header username = {username} role ={role} />
       <Outlet />
       <Footer />
+
+     
     </>
   );
 }

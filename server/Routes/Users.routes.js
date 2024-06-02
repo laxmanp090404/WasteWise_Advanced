@@ -7,5 +7,5 @@ router.get("/user/getuser", verifyToken, UserController.getUser);
 router.post("/user/createuser", UserController.createUser);
 router.post("/user/loginuser", UserController.loginUser);
 router.post("/user/logoutuser", UserController.logoutUser);
-
+router.patch("/user/update",verifyToken,UserController.updateUser);
 module.exports = router;
