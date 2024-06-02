@@ -6,6 +6,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import Loader from '../Common/Loader';
 
 // Custom icons
 const binIcon = new Icon({
@@ -25,9 +26,9 @@ const geocode = async (address) => {
     return null;
   }
 
-  const apiKey = import.meta.env.VITE_DISTAI_API_KEY1;  // Replace with your actual API key
+  const apiKey = import.meta.env.VITE_DISTAI_API_KEY1; 
   const encodedAddress = encodeURIComponent(address);
-  const apiUrl = `https://api.distancematrix.ai/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+  const apiUrl = `maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -83,9 +84,22 @@ const Body = () => {
   }, [user.location]);
 
   if (!centerPosition) {
-    return <div>Loading...</div>; // Or a loading spinner
+    return <Loader/>; 
   }
-
+  const handleDelete = async(id)=>{
+    try {
+      const res = await axios.delete(import.meta.env.VITE_SERVER+"/stations/delete/"+id);
+      if(res.status == 200){
+       toast.success(res.data.message);
+      }
+      else{
+       toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log("error at deleting station",error);
+      toast.error(error.response.data.message);
+    }
+  }
   return (
     <>
       <Toaster />
@@ -122,7 +136,7 @@ const Body = () => {
                         <div className="details flex flex-col space-y-3 items-center justify-center">
                           <p className='text-5xl'>{binlevel}</p>
                           <p className='text-green-400'>Total Capacity in Kgs</p>
-                          <button className='text-lg hover:bg-[#f05656] bg-[#ee3a3a] px-5 py-2 rounded-xl text-white'>Delete Center</button>
+                          <button onClick={()=>{handleDelete(_id)}} className='text-lg hover:bg-[#f05656] bg-[#ee3a3a] px-5 py-2 rounded-xl text-white'>Delete Center</button>
                         </div>
                       </div>) : (<div className=' w-[250px] rounded-lg pb-5 flex flex-col items-center justify-center space-y-2 '>
                         <p className='bg-green-600 text-white w-full h-[2rem]  text-xl rounded-t-lg flex items-center justify-center'><span>{name}</span></p>
