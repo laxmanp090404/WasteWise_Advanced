@@ -33,3 +33,19 @@ exports.getStations=async(req,res)=>{
         res.status(500).json({ message: "Error getting stations" });
  }
 }
+
+exports.removeStation  = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const Station = await StationModel.findByIdAndDelete(id)
+        if(Station){
+            res.status(200).json({message:"Deleted station"})
+        }
+        else{
+            res.status(304).json({message:"Unable to delete station"})
+        }
+    } catch (error) {
+        console.error("Error getting stations:", error);
+        res.status(500).json({ message: "Error getting stations" });
+    }
+}
