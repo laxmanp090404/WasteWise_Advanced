@@ -27,7 +27,7 @@ const Header = ({ username, role }) => {
   setShowMenu(!showMenu)
  }
  const handleNotification = ()=>{
-  nav("/notifcations")
+  nav("/notifications")
   setShowMenu(!showMenu)
  }
  const handleAddListing = ()=>{

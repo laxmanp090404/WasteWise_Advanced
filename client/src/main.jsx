@@ -11,14 +11,19 @@ import Body from './Components/Body';
 import AddListing from './Pages/AddListing';
 import Notifications from './Pages/Notifications';
 import EditProfile from './Pages/EditProfile';
+import Home from './Pages/Home';
 
 const appRouter = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      ,{
+        path:"/",
+        element:<Home/>
+      },
       {
-        path: '/',
+        path: '/map',
         element: <Body />
       },
     ]

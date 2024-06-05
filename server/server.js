@@ -9,7 +9,7 @@ require('dotenv').config();
 // Routes
 const userRoute = require('./Routes/Users.routes');
 const stationRoutes = require('./Routes/Stations.routes');
-
+const bookingRoutes  = require('./Routes/Bookings.routes')
 // CORS configuration
 const corsOptions = {
   origin: process.env.CLIENT_URL,
@@ -59,7 +59,7 @@ try {
 // Define routes
 app.use(userRoute);
 app.use(stationRoutes);
-
+app.use(bookingRoutes)
 app.get('/', (req, res) => {
   res.status(200).send({ message: 'node server' });
 });

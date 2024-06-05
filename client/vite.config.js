@@ -21,6 +21,10 @@ export default defineConfig({
         secure: false,
         rewrite: (path) => path.replace(/^\/maps\/api/, '/maps/api'),
       },
+      '/bookings': {
+        target: 'http://localhost:7000',
+        changeOrigin: true,
+      }
     },
   },
 });

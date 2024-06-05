@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -9,7 +9,21 @@ const Addlisting = () => {
   const [name,setName] = useState("");
   const [location,setLocation] = useState("")
   const [binlevel,setBinLevel] = useState(0)
-  
+  const [bookings,setBookings] = useState([]);
+  useEffect(()=>{
+    getBookings();
+  },[])
+  const getBookings = async()=>{
+    const res = await axios.get(import.meta.env.VITE_SERVER+"/bookings/get");
+    //console.log(res.data.response);
+    if(res.status === 200){
+      setBookings(res.data.response);
+
+    }
+    else{
+      toast.error(res.data.message);
+    }
+  }
   const addlisting = async () => {
      try {
       const res =await axios.post(import.meta.env.VITE_SERVER+"/stations/create",{
@@ -30,7 +44,7 @@ const Addlisting = () => {
   return (
     <>
     <Toaster/>
-    <div className='bg-[#9fe870]'>
+    <div className='bg-[#9fe870] py-10'>
       <div className='px-5 pt-2'>
         <button onClick={() => { nav("/") }} className='px-6 py-2 bg-[#163300] text-[#f9f9f9] hover:bg-[#9fe870] hover:border-[#163300] hover:text-[#163300] duration-300 border-2 border-transparent rounded-lg'>Back</button>
       </div>
@@ -49,6 +63,36 @@ const Addlisting = () => {
         </section>
       </div>
     </div>
+    <div className='min-h-screen flex flex-col justify-center '>
+      <p className='text-5xl self-center p-5 '>Bookings</p>
+        <div className="tablecontrol overflow-x-auto mx-2 border-2 rounded-xl border-b-[5px] border-r-[5px]">
+          <table className="min-w-full leading-normal rounded-xl hover:table-fixed ">
+            <thead>
+              <tr>
+                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">First Name</th>
+                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Station Name</th>
+                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantity Booked</th>
+                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map((booking, index) => {
+                const { firstName, email, stationName, quantityBooked, location } = booking;
+                return (
+                  <tr key={index} className='bg-green-600'>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{firstName}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{email}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{stationName}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{quantityBooked}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{location}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   );
 }
