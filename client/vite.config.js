@@ -24,6 +24,10 @@ export default defineConfig({
       '/bookings': {
         target: 'http://localhost:7000',
         changeOrigin: true,
+      },
+      '/notifications': {
+        target: 'http://localhost:7000',
+        changeOrigin: true,
       }
     },
   },

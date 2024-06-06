@@ -50,8 +50,8 @@ const Addlisting = () => {
       </div>
       <div className='bg-inherit min-w-screen min-h-screen flex flex-col md:flex-row items-center  justify-between px-[20vh] md:space-x-[2rem] space-y-4 '>
 
-        <section className='text md:w-1/3'>
-          <p className='text-[#163300]  text-wrap md:text-[3rem] text-[2rem]'>Managing waste shouldn't be a <span className='text-white md:text-[3.5rem] text-[2.5rem]'>burden</span><br></br> It should be a  <span className='text-white md:text-[3.5rem] text-[2.5rem]'>breeze</span></p>
+        <section className='text md:w-1/3 my-10'>
+          <p className='text-[#163300]  text-wrap text-[3rem]'>Managing waste shouldn't be a <span className='text-white font-serif '>burden</span><br></br> It should be a  <span className='text-white font-serif'>breeze</span></p>
         </section>
         <section className='card flex flex-col md:w-[550px] md:h-[620px] w-[350px] h-[580px] gap-10 justify-center bg-white items-center rounded-xl px-4'>
           <p className="text-2xl font-bold">Add Listing</p>
@@ -63,29 +63,31 @@ const Addlisting = () => {
         </section>
       </div>
     </div>
-    <div className='min-h-screen flex flex-col justify-center '>
-      <p className='text-5xl self-center p-5 '>Bookings</p>
+    <div className='min-h-screen flex flex-col justify-center py-10'>
+      <p className='md:text-5xl text-4xl self-center p-5 '>Bookings</p>
         <div className="tablecontrol overflow-x-auto mx-2 border-2 rounded-xl border-b-[5px] border-r-[5px]">
           <table className="min-w-full leading-normal rounded-xl hover:table-fixed ">
             <thead>
               <tr>
-                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">First Name</th>
-                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
-                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Station Name</th>
-                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantity Booked</th>
-                <th className="px-5 py-3 border-b-2 border-[#097969] bg-green-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">User Name</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">Station Name</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">Quantity Booked</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">user Location</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">Time</th>
+
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking, index) => {
-                const { firstName, email, stationName, quantityBooked, location } = booking;
+                const { firstName, email, stationName, quantityBooked, location,createdAt } = booking;
                 return (
                   <tr key={index} className='bg-green-600'>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{firstName}</td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{email}</td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{stationName}</td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{quantityBooked}</td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{location}</td>
+                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{firstName}</td>
+                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{stationName}</td>
+                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{quantityBooked}</td>
+                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{location}</td>
+                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{new Date(createdAt).toLocaleString()}</td>
+
                   </tr>
                 );
               })}

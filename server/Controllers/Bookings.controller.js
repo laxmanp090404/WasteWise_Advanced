@@ -46,7 +46,8 @@ exports.getBookings = async (req, res) => {
             email:booking.userId?booking.userId.email:"Unknown email",
             stationName: booking.stationId ? booking.stationId.name : 'Unknown Station',
             quantityBooked: booking.quantity,
-            location: booking.stationId ? booking.stationId.location : 'Unknown Location'
+            location: booking.stationId ? booking.stationId.location : 'Unknown Location',
+            createdAt:booking.createdAt
         }));
 
         res.status(200).json({response,message:"Fetched Bookings Successfully"});
@@ -55,3 +56,27 @@ exports.getBookings = async (req, res) => {
         res.status(500).json({ message: 'Error getting bookings' });
     }
 };
+
+exports.getUserBookings = async(req,res)=>{
+  try {
+     const userId = req.userId;
+     const bookings = await Booking.find({userId})
+                                                  .populate({
+                                                    path:"stationId",
+                                                    select:"name location"
+                                                  }).sort({updatedAt:-1})
+    const response =  bookings.map((booking)=>(
+        {
+            stationName:booking.stationId?booking.stationId.name:"Unknown Station",
+            location:booking.stationId?booking.stationId.location:"Unknown location",
+            quantityBooked:booking.quantity,
+            createdAt:booking.updatedAt
+        }
+    ))
+    res.status(200).json({message:"Fetched Your bookings successfully",response})
+
+  } catch (error) {
+    console.error('Error getting booking:', error);
+        res.status(500).json({ message: 'Error getting bookings' });
+  }
+}

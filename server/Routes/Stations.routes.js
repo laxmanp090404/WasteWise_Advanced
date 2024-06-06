@@ -5,5 +5,5 @@ const verifyToken = require("../Middlewares/auth");
 
 router.post("/stations/create", verifyToken, StationController.createStation);
 router.get("/stations/getall", StationController.getStations);
-router.delete("/stations/delete/:id",StationController.removeStation);
+router.delete("/stations/delete/:id",verifyToken,StationController.removeStation);
 module.exports = router;

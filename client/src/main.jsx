@@ -39,7 +39,7 @@ const appRouter = createBrowserRouter([
     path:"/addlisting",
     element:<AddListing/>
   },{
-    path:"/notifications",
+    path:"/tonotifications",
     element:<Notifications/>
   },
   {

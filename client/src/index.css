@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .major-mono-display-regular {
     font-family: "Major Mono Display", monospace;
   }

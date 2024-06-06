@@ -1,5 +1,6 @@
 const StationModel = require("../Models/Station.model")
-
+const BookingModel  = require('../Models/Bookings.model')
+const NotificationModel = require('../Models/Notifications.model')
 exports.createStation = async(req,res)=>{
     try {
         const {name,location,binlevel} = req.body;
@@ -34,18 +35,31 @@ exports.getStations=async(req,res)=>{
  }
 }
 
-exports.removeStation  = async(req,res)=>{
+exports.removeStation = async (req, res) => {
     try {
-        const {id} = req.params;
-        const Station = await StationModel.findByIdAndDelete(id)
-        if(Station){
-            res.status(200).json({message:"Deleted station"})
-        }
-        else{
-            res.status(304).json({message:"Unable to delete station"})
+        const { id } = req.params;
+        const station = await StationModel.findByIdAndDelete(id);
+        if (station) {
+            // Find all bookings related to the station
+            const bookings = await BookingModel.find({ stationId: id });
+
+            // Delete related bookings
+            await BookingModel.deleteMany({ stationId: id });
+
+            // Prepare notifications for affected users
+            const notifications = bookings.map(booking => ({
+                userId: booking.userId,
+                message: `The station ${station.name} has been deleted. Your booking is affected.`,
+                status: 'unread'
+            }));
+            await NotificationModel.insertMany(notifications);
+
+            res.status(200).json({ message: "Deleted station, related bookings, and notified affected users" });
+        } else {
+            res.status(304).json({ message: "Unable to delete station" });
         }
     } catch (error) {
-        console.error("Error removing stations:", error);
-        res.status(500).json({ message: "Error removing stations" });
+        console.error("Error removing station:", error);
+        res.status(500).json({ message: "Error removing station" });
     }
-}
+};

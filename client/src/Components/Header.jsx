@@ -27,7 +27,7 @@ const Header = ({ username, role }) => {
   setShowMenu(!showMenu)
  }
  const handleNotification = ()=>{
-  nav("/notifications")
+  nav("/tonotifications")
   setShowMenu(!showMenu)
  }
  const handleAddListing = ()=>{
@@ -35,12 +35,11 @@ const Header = ({ username, role }) => {
   setShowMenu(!showMenu)
  }
   return (
+    
     <>
     <Toaster/>
-    <>
-     
-      <header className={role === "admin"?'bg-gradient-r from-green-400 to bg-green-400 via-bg-green-300 text-white px-[3vh] py-[2vh] text-md flex items-center justify-between':"px-[3vh] py-[2vh] text-md flex items-center justify-between "}>
-        <figure className='flex items-center space-x-2'>
+      <header className={role === "admin"?'bg-[#133313] text-white px-[3vh] py-[2vh] text-md flex items-center justify-between':"px-[3vh] py-[2vh] text-md flex items-center justify-between "}>
+        <figure className='flex items-center space-x-2 cursor-pointer' onClick={()=>{nav('/')}}>
           <img src="/assets/logo1.png" alt="logo" className='w-[32px] h-[32px]' />
           <figcaption className='text-2xl poetsen-one-regular'>WASTE<span className='text-green-700'>WISE</span></figcaption>
         </figure>
@@ -76,25 +75,25 @@ const Header = ({ username, role }) => {
           </div>
         </div>
         {showMenu && (
-          <div className='absolute z-50 right-3 top-[8vh] list-none bg-[#DDFFBB] rounded-lg text-[#718264] text-md md:text-xl'>
+          <div className='absolute z-50 right-3 top-[8vh] list-none bg-[#1a4c1a] rounded-lg text-white text-md md:text-xl'>
             {role === "user" ? (
               <>
-                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#C7E9B0] active:bg-[#adf282] rounded-t-lg'>Profile</li>
-                <li onClick={handleNotification} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#C7E9B0] active:bg-[#adf282]'>Notification</li>
-                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#C7E9B0] active:bg-[#adf282] rounded-b-lg'>Logout</li>
+                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-t-lg'>Profile</li>
+                <li onClick={handleNotification} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282]'>Notification</li>
+                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-b-lg'>Logout</li>
               </>
             ) : (
               <>
-                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#C7E9B0] active:bg-[#adf282] rounded-t-lg'>Profile</li>
-                <li onClick={handleAddListing } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#C7E9B0] active:bg-[#adf282]'>Add Listing</li>
-                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#C7E9B0] active:bg-[#adf282] rounded-b-lg'>Logout</li>
+                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-t-lg'>Profile</li>
+                <li onClick={handleAddListing } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282]'>Add Listing</li>
+                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-b-lg'>Logout</li>
               </>
             )}
           </div>
         )}
       </header>
     </>
-    </>
+    
   );
 }
 
