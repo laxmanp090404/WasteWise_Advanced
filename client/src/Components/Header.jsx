@@ -78,15 +78,15 @@ const Header = ({ username, role }) => {
           <div className='absolute z-50 right-3 top-[8vh] list-none bg-[#1a4c1a] rounded-lg text-white text-md md:text-xl'>
             {role === "user" ? (
               <>
-                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-t-lg'>Profile</li>
-                <li onClick={handleNotification} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282]'>Notification</li>
-                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-b-lg'>Logout</li>
+                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]  rounded-t-lg'>Profile</li>
+                <li onClick={handleNotification} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] '>Notification</li>
+                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]  rounded-b-lg'>Logout</li>
               </>
             ) : (
               <>
-                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-t-lg'>Profile</li>
-                <li onClick={handleAddListing } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282]'>Add Listing</li>
-                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] active:bg-[#adf282] rounded-b-lg'>Logout</li>
+                <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]  rounded-t-lg'>Profile</li>
+                <li onClick={handleAddListing } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] '>Add Listing</li>
+                <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]  rounded-b-lg'>Logout</li>
               </>
             )}
           </div>

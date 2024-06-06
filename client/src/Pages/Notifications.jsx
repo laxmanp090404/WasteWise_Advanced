@@ -72,11 +72,13 @@ const Notifications = () => {
         <p className='text-4xl m-10'>Your Bookings</p>
         <div className='min-h-screen m-5 w-[420px] sm:w-auto'>
           {bookings == null ? (
-            <div className="loader-wrapper">
-              <div className="loader"></div>
-              <div className="loader-content">
-                <img src="/assets/logo1.png" alt="Loading Image" />
-                <p className='text-xl md:text-2xl '>Loading</p>
+            <div className='flex items-center justify-center'>
+              <div className="loader-wrapper ">
+                <div className="loader"></div>
+                <div className="loader-content">
+                  <img src="/assets/logo1.png" alt="Loading Image" />
+                  <p className='text-xl md:text-2xl '>Loading</p>
+                </div>
               </div>
             </div>
           ) : (

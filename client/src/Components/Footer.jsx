@@ -31,36 +31,8 @@ const Footer = () => {
             Contact
           </Link>
         </div>
-        <div className="grid gap-2">
-          <h3 className="text-lg font-bold">Services</h3>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            Recycling
-          </Link>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            Composting
-          </Link>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            Hazardous Waste
-          </Link>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            Education
-          </Link>
-        </div>
-        <div className="grid gap-2">
-          <h3 className="text-lg font-bold">Resources</h3>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            Blog
-          </Link>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            FAQ
-          </Link>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            Guides
-          </Link>
-          <Link href="#" className="text-gray-300 hover:text-white" prefetch={false}>
-            News
-          </Link>
-        </div>
+        
+        
       </div>
     </div>
     <div className="container mx-auto px-4 md:px-6 mt-8 flex flex-col md:flex-row items-center justify-between">

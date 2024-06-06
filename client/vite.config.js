@@ -28,7 +28,13 @@ export default defineConfig({
       '/notifications': {
         target: 'http://localhost:7000',
         changeOrigin: true,
-      }
+      },
+      '/geocode': {
+        target: 'https://geocode.search.hereapi.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/geocode/, ''),
+      },
     },
   },
 });

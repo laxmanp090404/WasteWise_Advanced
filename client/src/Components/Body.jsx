@@ -28,7 +28,7 @@ const geocode = async (address) => {
   }
 
   const encodedAddress = encodeURIComponent(address);
-  const apiUrl = `https://geocode.search.hereapi.com/v1/geocode?apiKey=${import.meta.env.VITE_HERE_MAPS_API_KEY}&q=${encodedAddress}`;
+  const apiUrl = `/geocode/v1/geocode?apiKey=${import.meta.env.VITE_HERE_MAPS_API_KEY}&q=${encodedAddress}`;
   try {
     const response = await axios.get(apiUrl);
     if (response.status === 200) {
@@ -63,7 +63,8 @@ const Body = () => {
             position
           };
         }));
-        setMarkers(updatedMarkers.filter(marker => marker.position));
+        // Filter out markers with zero capacity and no position
+        setMarkers(updatedMarkers.filter(marker => marker.position && marker.binlevel > 0));
       } catch (error) {
         console.error("Error fetching markers:", error);
       }
@@ -97,7 +98,7 @@ const Body = () => {
             marker._id === stationId
               ? { ...marker, binlevel: marker.binlevel - binreq }
               : marker
-          )
+          ).filter(marker => marker.binlevel > 0) // Filter out markers with zero capacity
         );
       } else {
         toast.error("Booking quantity is 0");
@@ -198,8 +199,6 @@ const Body = () => {
 };
 
 export default Body;
-
-
 
 
 

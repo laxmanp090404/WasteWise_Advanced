@@ -69,11 +69,11 @@ const Addlisting = () => {
           <table className="min-w-full leading-normal rounded-xl hover:table-fixed ">
             <thead>
               <tr>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">User Name</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">Station Name</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">Quantity Booked</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">user Location</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-green-100 text-start md:text-lg text-sm font-semibold text-gray-600 uppercase tracking-wider">Time</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">User Name</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Station Name</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Quantity Booked</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">user Location</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Time</th>
 
               </tr>
             </thead>
@@ -81,7 +81,7 @@ const Addlisting = () => {
               {bookings.map((booking, index) => {
                 const { firstName, email, stationName, quantityBooked, location,createdAt } = booking;
                 return (
-                  <tr key={index} className='bg-green-600'>
+                  <tr key={index}>
                     <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{firstName}</td>
                     <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{stationName}</td>
                     <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{quantityBooked}</td>
