@@ -83,46 +83,46 @@ const Notifications = () => {
             </div>
           ) : (
             <>
-            {
-              bookings.length === 0?(
-                <NoResults/>
-              ):(
-                <div className="tablecontainer overflow-x-auto border-4 rounded-xl">
-              <table className="min-w-full leading-normal">
-                <thead>
-                  <tr>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Station Name</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantity Booked</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Time</th>
+              {
+                bookings.length === 0 ? (
+                  <NoResults />
+                ) : (
+                  <div className="tablecontainer overflow-x-auto border-4 rounded-xl">
+                    <table className="min-w-full leading-normal">
+                      <thead>
+                        <tr>
+                          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Station Name</th>
+                          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantity Booked</th>
+                          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+                          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Time</th>
 
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings?.map((booking, index) => {
-                    const { stationName, quantityBooked, location,createdAt } = booking;
-                    return (
-                      <tr key={index} className='rounded-xl'>
-                        <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{stationName}</td>
-                        <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{quantityBooked}</td>
-                        <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{location}</td>
-                        <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{new Date(createdAt).toLocaleString()}</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bookings?.map((booking, index) => {
+                          const { stationName, quantityBooked, location, createdAt } = booking;
+                          return (
+                            <tr key={index} className='rounded-xl'>
+                              <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{stationName}</td>
+                              <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{quantityBooked}</td>
+                              <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{location}</td>
+                              <td className={index % 2 === 0 ? "px-5 py-5 border-b border-gray-200 bg-white text-md md:text-lg" : "px-5 py-5 border-b border-gray-200 bg-[#e8f7dd] text-md md:text-lg"}>{new Date(createdAt).toLocaleString()}</td>
 
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-              )
-            }
-            
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )
+              }
+
             </>
           )}
         </div>
       </div>
-      <div className='min-h-screen min-w-full flex flex-col items-center space-y-10 bg-opacity-30 notification-container'>
-        <p className='text-4xl my-10'>Your Notifications</p>
+      <div className='min-h-screen min-w-full flex flex-col items-center bg-gradient-r from-bg-[#1a4c1a] to bg-[#1a4c1a] via-bg-[#305a30] space-y-10 notification-container'>
+        <p className='text-4xl my-10 text-white'>Your Notifications</p>
         {notifications == null ? (
           <div className="loader-wrapper">
             <div className="loader"></div>
@@ -134,7 +134,7 @@ const Notifications = () => {
         ) : (
           <>
             {notifications.length === 0 ? (
-              <NoResults/>
+              <NoResults />
             ) : (
               <div className="notifcontainer relative">
                 {notifications.map((notification, index) => {
@@ -164,7 +164,7 @@ const Notifications = () => {
                   );
                 })}
                 {notif && (
-                  <div className='absolute top-0 bg-opacity-60 bg-white w-full h-full'>
+                  <div className='absolute top-0 bg-opacity-30  w-full h-full'>
                     <div className='flex items-center justify-center'>
                       <div className='modal p-[4vh] bg-white w-[90vw] md:w-[30vw] h-[40vh] shadow-xl rounded-xl border-2'>
                         <p className='md:ml-[25vw] ml-[20vh] cursor-pointer' onClick={() => { showNotif(false); }}>
@@ -172,7 +172,10 @@ const Notifications = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         </p>
-                        <p className='my-[7vh] mx-[2vh] text-xl'>{selectedMessage}</p>
+                        <div className="flex flex-col items-center justify-center">
+                          <p className='mt-[7vh] mb-[3vh] mx-[2vh] text-xl text-start'>{selectedMessage}</p>
+                          <button onClick={() => { nav('/map') }} className='self-end mx-[5vh] px-4 py-2 bg-green-400 hover:bg-green-500 text-white duration-200 rounded-full'>Book Station</button>
+                        </div>
                       </div>
                     </div>
                   </div>

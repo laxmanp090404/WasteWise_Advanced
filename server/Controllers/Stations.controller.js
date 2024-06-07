@@ -10,7 +10,7 @@ exports.createStation = async(req,res)=>{
         }
         else{
             const Station = await StationModel.create({
-                name,location,binlevel
+                name,location,binlevel,orginallevel:binlevel
             })
             
                 res.status(201).json({Station,message:"Station created successfully"})
@@ -61,5 +61,23 @@ exports.removeStation = async (req, res) => {
     } catch (error) {
         console.error("Error removing station:", error);
         res.status(500).json({ message: "Error removing station" });
+    }
+};
+
+
+exports.refillStation = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const station = await StationModel.findById(id);
+        if (station) {
+            station.binlevel = station.orginallevel;
+            await station.save();
+            res.status(200).json({ newBinLevel: station.binlevel, message: "Station refilled successfully" });
+        } else {
+            res.status(404).json({ message: "Station not found" });
+        }
+    } catch (error) {
+        console.error("Error refilling station:", error);
+        res.status(500).json({ message: "Error refilling station" });
     }
 };

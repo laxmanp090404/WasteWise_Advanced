@@ -5,6 +5,7 @@ import axios from 'axios';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import { addUser, loginState } from './Slices/userSlice';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -40,9 +41,10 @@ function App() {
   
   return (
     <>
-     
+     <Toaster/>
       <Header username = {username} role ={role} />
       <Outlet />
+    
       <Footer />
 
      

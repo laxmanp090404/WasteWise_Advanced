@@ -65,14 +65,14 @@ const Addlisting = () => {
     </div>
     <div className='min-h-screen flex flex-col justify-center py-10'>
       <p className='md:text-5xl text-4xl self-center p-5 '>Bookings</p>
-        <div className="tablecontrol overflow-x-auto mx-2 border-2 rounded-xl border-b-[5px] border-r-[5px]">
+        <div className="tablecontrol overflow-auto mx-2 border-2 rounded-xl border-b-[5px] border-r-[5px]">
           <table className="min-w-full leading-normal rounded-xl hover:table-fixed ">
             <thead>
               <tr>
                 <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">User Name</th>
                 <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Station Name</th>
                 <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Quantity Booked</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">user Location</th>
+                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Station Location</th>
                 <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Time</th>
 
               </tr>

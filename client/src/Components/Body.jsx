@@ -11,7 +11,12 @@ import { createBooking } from '../Slices/bookingSlice';
 
 // Custom icons
 const binIcon = new Icon({
-  iconUrl: "/assets/binmarker.png",
+  iconUrl: "/assets/mapbinmarker.jpg",
+  iconSize: [70, 70]
+});
+
+const fullBinIcon = new Icon({
+  iconUrl: "/assets/filledbinmarker.png", 
   iconSize: [50, 50]
 });
 
@@ -63,8 +68,7 @@ const Body = () => {
             position
           };
         }));
-        // Filter out markers with zero capacity and no position
-        setMarkers(updatedMarkers.filter(marker => marker.position && marker.binlevel > 0));
+        setMarkers(updatedMarkers.filter(marker => marker.position));
       } catch (error) {
         console.error("Error fetching markers:", error);
       }
@@ -98,7 +102,7 @@ const Body = () => {
             marker._id === stationId
               ? { ...marker, binlevel: marker.binlevel - binreq }
               : marker
-          ).filter(marker => marker.binlevel > 0) // Filter out markers with zero capacity
+          )
         );
       } else {
         toast.error("Booking quantity is 0");
@@ -123,6 +127,27 @@ const Body = () => {
     }
   };
 
+  const handleRefill = async (stationId) => {
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_SERVER}/stations/refill/${stationId}`);
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        setMarkers((prevMarkers) =>
+          prevMarkers.map(marker =>
+            marker._id === stationId
+              ? { ...marker, binlevel: res.data.newBinLevel }
+              : marker
+          )
+        );
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.error("Error refilling station:", error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <>
       <Toaster />
@@ -131,7 +156,8 @@ const Body = () => {
         <MapContainer center={centerPosition} zoom={16} style={{ width: '100%', height: '90vh' }} className='z-0'>
           <TileLayer
             attribution="Google Maps"
-            url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+            url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" //normal
+            //url='http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'   //satellite
             maxZoom={20}
             subdomains={["mt0", "mt1", "mt2", "mt3"]}
           />
@@ -149,7 +175,7 @@ const Body = () => {
               <Marker
                 key={_id}
                 position={position}
-                icon={binIcon}
+                icon={binlevel === 0 ? fullBinIcon : binIcon}
               >
                 <Popup>
                   <div className='flex items-center justify-center'>
@@ -159,7 +185,11 @@ const Body = () => {
                         <div className="details flex flex-col space-y-3 items-center justify-center">
                           <p className='text-5xl'>{binlevel}</p>
                           <p className='text-green-400'>Total Capacity in Kgs</p>
-                          <button onClick={() => { handleDelete(_id) }} className='text-lg hover:bg-[#f05656] bg-[#ee3a3a] px-5 py-2 rounded-xl text-white'>Delete Center</button>
+                          {binlevel === 0 ? (
+                            <button onClick={() => handleRefill(_id)} className='text-lg hover:bg-[#4CAF50] bg-[#3B8F44] px-5 py-2 rounded-xl text-white'>Refill Center</button>
+                          ) : (
+                            <button onClick={() => handleDelete(_id)} className='text-lg hover:bg-[#f05656] bg-[#ee3a3a] px-5 py-2 rounded-xl text-white'>Delete Center</button>
+                          )}
                         </div>
                       </div>
                     ) : (
@@ -168,22 +198,28 @@ const Body = () => {
                         <div className="details flex flex-col space-y-1 items-center justify-center">
                           <p className='text-4xl py-0'>{binlevel}</p>
                           <p className='text-green-400'>Total Capacity in Kgs</p>
-                          <input
-                            type='range'
-                            min='0'
-                            max={binlevel}
-                            value={binreq}
-                            onChange={(e) => setBinReq(Number(e.target.value))}
-                            className='border-2 border-gray-400 rounded-lg w-full'
-                          />
-                          <span className='text-4xl'>{binreq}</span>
-                          <p>Required Capacity in Kgs</p>
-                          <button
-                            onClick={() => handleBooking(_id, binlevel)}
-                            className='text-lg hover:bg-[#4CAF50] bg-[#3B8F44] px-5 py-2 rounded-xl text-white'
-                          >
-                            Book Center
-                          </button>
+                          {binlevel === 0 ? (
+                            <p className='text-red-500'>Station is filled. See other stations.</p>
+                          ) : (
+                            <>
+                              <input
+                                type='range'
+                                min='0'
+                                max={binlevel}
+                                value={binreq}
+                                onChange={(e) => setBinReq(Number(e.target.value))}
+                                className='border-2 border-gray-400 rounded-lg w-full'
+                              />
+                              <span className='text-4xl'>{binreq}</span>
+                              <p>Required Capacity in Kgs</p>
+                              <button
+                                onClick={() => handleBooking(_id, binlevel)}
+                                className='text-lg hover:bg-[#4CAF50] bg-[#3B8F44] px-5 py-2 rounded-xl text-white'
+                              >
+                                Book Center
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     )}
@@ -199,9 +235,6 @@ const Body = () => {
 };
 
 export default Body;
-
-
-
 
 // //Geocoding function to get coordinates from an address using Distance Matrix API
 // const geocode = async (address) => {

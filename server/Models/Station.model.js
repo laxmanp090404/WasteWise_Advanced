@@ -12,6 +12,10 @@ const StationSchema = mongoose.Schema({
     binlevel:{
         type:Number,
         required:[true,"Station bin level is required"]
+    },
+    orginallevel:{
+        type:Number,
+        default:50
     }
 },{
     timestamps:true

@@ -59,7 +59,7 @@ const Header = ({ username, role }) => {
           ) : (
             <>
               <li className='m-2 min-w-[25px] px-2 py-1 rounded-2xl'>User</li>
-              <li className='m-2 min-w-[25px] bg-[#aee67f] px-2 py-1 rounded-2xl'>Admin</li>
+              <li className='m-2 min-w-[25px] bg-[#aee67f] text-[#0d3714] px-2 py-1 rounded-2xl'>Admin</li>
             </>
           )}
         </div>
