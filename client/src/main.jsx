@@ -12,6 +12,7 @@ import AddListing from './Pages/AddListing';
 import Notifications from './Pages/Notifications';
 import EditProfile from './Pages/EditProfile';
 import Home from './Pages/Home';
+import ViewBookings from './Pages/ViewBookings';
 
 const appRouter = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const appRouter = createBrowserRouter([
   {
     path:"/editprofile",
     element:<EditProfile/>
+  },
+  {
+    path:"/adminviewbookings",
+    element:<ViewBookings/>
   }
 ]);
 

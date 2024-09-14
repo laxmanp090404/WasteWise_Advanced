@@ -63,38 +63,7 @@ const Addlisting = () => {
         </section>
       </div>
     </div>
-    <div className='min-h-screen flex flex-col justify-center py-10'>
-      <p className='md:text-5xl text-4xl self-center p-5 '>Bookings</p>
-        <div className="tablecontrol overflow-auto mx-2 border-2 rounded-xl border-b-[5px] border-r-[5px]">
-          <table className="min-w-full leading-normal rounded-xl hover:table-fixed ">
-            <thead>
-              <tr>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">User Name</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Station Name</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Quantity Booked</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Station Location</th>
-                <th className="px-5  py-3 border-b-2 border-[#097969] bg-[#9fe870] text-start md:text-lg text-sm font-semibold text-white uppercase tracking-wider">Time</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((booking, index) => {
-                const { firstName, email, stationName, quantityBooked, location,createdAt } = booking;
-                return (
-                  <tr key={index}>
-                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{firstName}</td>
-                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{stationName}</td>
-                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{quantityBooked}</td>
-                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{location}</td>
-                    <td className="px-5 py-4 border-b border-gray-200 bg-white text-sm md:text-lg">{new Date(createdAt).toLocaleString()}</td>
-
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    
     </>
   );
 }

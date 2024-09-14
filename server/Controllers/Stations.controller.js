@@ -40,16 +40,13 @@ exports.removeStation = async (req, res) => {
         const { id } = req.params;
         const station = await StationModel.findByIdAndDelete(id);
         if (station) {
-            // Find all bookings related to the station
             const bookings = await BookingModel.find({ stationId: id });
 
-            // Delete related bookings
             await BookingModel.deleteMany({ stationId: id });
 
-            // Prepare notifications for affected users
             const notifications = bookings.map(booking => ({
                 userId: booking.userId,
-                message: `The station ${station.name} has been deleted. Your booking is affected.`,
+                message: `The station ${station.name} has been deleted. Your booking is affected.Try Booking other stations`,
                 status: 'unread'
             }));
             await NotificationModel.insertMany(notifications);

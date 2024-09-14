@@ -9,6 +9,11 @@ const Header = ({ username, role }) => {
   const [showMenu, setShowMenu] = useState(false);
   const nav = useNavigate();
 
+
+  const handleAdminViewBookings = () => {
+    nav("/adminviewbookings");
+    setShowMenu(!showMenu);
+  }
   const handleLogout = async () => {
     setShowMenu(!showMenu);
     try {
@@ -86,6 +91,7 @@ const Header = ({ username, role }) => {
               <>
                 <li onClick={handleProfile } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]  rounded-t-lg'>Profile</li>
                 <li onClick={handleAddListing } className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313] '>Add Listing</li>
+                <li onClick={handleAdminViewBookings} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]'>View Bookings</li>
                 <li onClick={handleLogout} className='p-[2vh] w-full h-full cursor-pointer hover:bg-[#133313]  rounded-b-lg'>Logout</li>
               </>
             )}

@@ -35,7 +35,6 @@ const Login = () => {
       const result = res.data;
 
       if (res.status === 200) {
-        toast.success(result.message);
         dispatch(addUser(result.user));
         dispatch(loginState(true));
         navigate('/');

@@ -88,7 +88,7 @@ const Signup = () => {
                     <input
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       id="first-name"
-                      placeholder="Srinivas"
+                      place-holder="Srinivas"
                       required
                       value={firstname}
                       onChange={(e) => setFirstname(e.target.value)}
@@ -156,7 +156,7 @@ const Signup = () => {
                     <input
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       id="mobile"
-                      placeholder="+91 1212121212"
+                      placeholder="1212121212"
                       required
                       type="text"
                       value={mobile}
@@ -189,13 +189,13 @@ const Signup = () => {
                     Role
                   </label>
                   <select
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-10 w-full   rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     id="role"
                     required
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                   >
-                    <option value="user" className=''>User</option>
+                    <option value="user" className='p-2'>User</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
