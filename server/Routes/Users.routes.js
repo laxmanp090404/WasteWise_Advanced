@@ -8,4 +8,5 @@ router.post("/user/createuser", UserController.createUser);
 router.post("/user/loginuser", UserController.loginUser);
 router.post("/user/logoutuser", UserController.logoutUser);
 router.patch("/user/update",verifyToken,UserController.updateUser);
+router.post("/user/reportbin",verifyToken,UserController.reportBin);
 module.exports = router;

@@ -1,6 +1,9 @@
 const UserModel = require("../Models/User.model");
+const ReportModel = require("../Models/Reportings.model")
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 
 exports.getUser = async (req, res) => {
   try {
@@ -119,3 +122,26 @@ exports.updateUser = async(req,res) =>{
     res.status(500).json({ message: "Error updating user" });
   }
 }
+
+exports.reportBin = async (req, res) => {
+  try {
+    const userId = req.userId; // Extract userId from middleware
+    const { location, imageUrl, category } = req.body;
+
+    if (!location || !location.latitude || !location.longitude) {
+      return res.status(400).json({ message: "Location data is incomplete" });
+    }
+
+    const newReport = await ReportModel.create({
+      userId,
+      location,
+      imageUrl,
+      category,
+    });
+   console.log("locatuon",location)
+    res.status(201).json({ report: newReport, message: "Bin reported successfully" });
+  } catch (error) {
+    console.error("Error reporting bin:", error);
+    res.status(500).json({ message: "Error reporting bin" });
+  }
+};

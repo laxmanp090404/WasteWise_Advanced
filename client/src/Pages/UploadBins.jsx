@@ -1,45 +1,51 @@
 import React, { useState } from "react";
+import toast,{Toaster} from "react-hot-toast";
+import axios from "axios";
 import { IoCheckmarkCircle, IoCloseCircle, IoCamera } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 const UploadBins = () => {
   const [image, setImage] = useState(null); // Stores uploaded image URL
-  const [location, setLocation] = useState(""); // Stores user's location
+  const [location, setLocation] = useState(null); // Stores user's location
   const [category, setCategory] = useState(""); // Stores selected category
   const [isUploading, setIsUploading] = useState(false); // Indicates upload status
   const [uploadProgress, setUploadProgress] = useState(0); // Tracks upload progress
   const nav = useNavigate();
+  axios.defaults.withCredentials = true;
 
-  // Function to handle file upload
   const handleFileUpload = async (file) => {
-    setIsUploading(true);
-    setUploadProgress(0); // Reset progress
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", import.meta.env.VITE_CLOUD_PRESET);
-
     try {
+      setIsUploading(true);
+      setUploadProgress(0); // Reset progress
+  
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", import.meta.env.VITE_CLOUD_PRESET);
+  
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`,
         {
           method: "POST",
           body: formData,
-          onUploadProgress: (event) => {
-            if (event.lengthComputable) {
-              const percent = Math.round((event.loaded * 100) / event.total);
-              setUploadProgress(percent);
-            }
-          },
         }
       );
+  
+      if (!response.ok) {
+        throw new Error(`Upload failed with status ${response.status}`);
+      }
+  
       const data = await response.json();
       setImage(data.secure_url); // Save uploaded image URL
+      toast.success("Image uploaded successfully!");
     } catch (error) {
       console.error("Upload failed:", error);
+      toast.error("Image upload failed. Please try again.");
     } finally {
       setIsUploading(false);
     }
   };
+  
+
 
   // Function to get user's location
   const fetchLocation = () => {
@@ -47,50 +53,64 @@ const UploadBins = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setLocation(`Lat: ${latitude}, Long: ${longitude}`);
+          setLocation({ latitude, longitude }); // Save as an object
+          toast.success("Location fetched successfully!");
         },
         (error) => {
           console.error("Error fetching location:", error);
+          toast.error("Unable to fetch location. Please enable location access.");
         }
       );
     } else {
-      alert("Geolocation is not supported by this browser.");
+      toast.error("Geolocation is not supported by this browser.");
     }
   };
-
-  // Handle tick click
-  const handleTickClick = () => {
-    if (!category || !location || !image) {
-      alert("Please complete all fields before submitting.");
-      return;
+  
+  // Handle submit button click
+  const handleTickClick = async (e) => {
+    e.preventDefault();
+  
+    try {
+      if (!category || !location || !image) {
+        toast.warning("Please complete all fields before submitting.");
+        return;
+      }
+  
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/user/reportbin`,
+        {
+          imageUrl: image,
+          location, // This should be an object with latitude and longitude
+          category,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+  
+      if (response.status === 200) {
+        toast.success("Data uploaded successfully!");
+        nav(-1); 
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      toast.error("Failed to submit data. Please try again.");
     }
-
-    // Send data to backend
-    // to be implmented in next commit
-    fetch("/api/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        image,
-        location,
-        category,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        alert("Data uploaded successfully!");
-        nav(-1); // Navigate back
-      })
-      .catch((err) => console.error(err));
   };
+  
 
-  // Handle clear (cross icon) click
+  // Handle clear button click
   const handleClear = () => {
     setImage(null);
     setLocation("");
     setCategory("");
+    setUploadProgress(0);
+    toast("All fields have been cleared!", {
+      icon: "🧹",
+    });
   };
 
   // Open device camera
@@ -98,13 +118,14 @@ const UploadBins = () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
-    input.capture = "environment"; 
+    input.capture = "environment";
     input.onchange = (e) => handleFileUpload(e.target.files[0]);
     input.click();
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center p-5">
+      <Toaster/>
       <h1 className="text-4xl font-bold mb-4">Report Waste Dumping</h1>
       <p className="text-center text-lg mb-6">
         Upload an image and provide necessary details to report waste dumping.
@@ -155,17 +176,22 @@ const UploadBins = () => {
           </div>
         )}
 
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium">Location</label>
-          <input
-            type="text"
-            value={location}
-            readOnly
-            className="w-full p-2 border rounded-lg bg-gray-100"
-            placeholder="Detecting location..."
-            onClick={fetchLocation}
-          />
-        </div>
+<div className="mb-4">
+  <label className="block text-gray-700 font-medium">Location</label>
+  <input
+    type="text"
+    value={
+      location && location.latitude && location.longitude
+        ? `${location.latitude}, ${location.longitude}`
+        : ""
+    }
+    readOnly
+    className="w-full p-2 border rounded-lg bg-gray-100"
+    placeholder="Click to fetch location..."
+    onClick={fetchLocation}
+  />
+</div>
+
 
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">
