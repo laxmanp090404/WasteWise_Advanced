@@ -13,6 +13,7 @@ import Notifications from './Pages/Notifications';
 import EditProfile from './Pages/EditProfile';
 import Home from './Pages/Home';
 import ViewBookings from './Pages/ViewBookings';
+import UploadBins from './Pages/UploadBins';
 
 const appRouter = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const appRouter = createBrowserRouter([
   {
     path:"/adminviewbookings",
     element:<ViewBookings/>
+  }
+  ,{
+    path:"/uploadandcollect",
+    element:<UploadBins/>
   }
 ]);
 
