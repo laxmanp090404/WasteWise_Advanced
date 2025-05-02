@@ -1,0 +1,33 @@
+name: Deploy Backend to Vercel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: |
+          cd server
+          npm install
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.BACKEND_VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.BACKEND_VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.BACKEND_VERCEL_ORG_ID }}
+        run: |
+          npm install -g vercel
+          cd server
+          vercel --prod --token $VERCEL_TOKEN --confirm
