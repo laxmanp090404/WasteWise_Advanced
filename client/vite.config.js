@@ -42,8 +42,19 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: 'public',
+      outDir: 'dist', // Output build to dist/ for Vercel
+      assetsDir: 'assets', // Place assets in dist/assets/
+      sourcemap: true, // Generate source maps for debugging
+      chunkSizeWarningLimit: 600, // Suppress chunk size warning
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom'], // Split vendor libraries
+          },
+        },
+      },
     },
+    publicDir: 'public', // Use public/ for static assets
     plugins: [react()],
   };
 });
