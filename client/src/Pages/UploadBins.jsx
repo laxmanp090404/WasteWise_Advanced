@@ -124,7 +124,7 @@ const UploadBins = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-5">
+    <div className="min-h-screen flex flex-col items-center p-5 py-8 ">
       <Toaster/>
       <h1 className="text-4xl font-bold mb-4">Report Waste Dumping</h1>
       <p className="text-center text-lg mb-6">

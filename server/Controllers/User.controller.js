@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 exports.getUser = async (req, res) => {
   try {
-    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+   
     const userId = req.userId; // This is set by the verifyToken middleware
     const user = await UserModel.findById(userId).select('-password');
     if (!user) {
@@ -46,8 +46,6 @@ exports.createUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ empty: true, message: "Email and password are required" });

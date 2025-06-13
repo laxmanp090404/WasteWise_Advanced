@@ -50,10 +50,10 @@ const Addlisting = () => {
       </div>
       <div className='bg-inherit min-w-screen min-h-screen flex flex-col md:flex-row items-center  justify-between px-[20vh] md:space-x-[2rem] space-y-4 '>
 
-        <section className='text md:w-1/3 my-10'>
+        <section className='text md:w-1/3 md:visible max-sm:hidden my-10'>
           <p className='text-[#163300]  text-wrap text-[3rem]'>Managing waste shouldn't be a <span className='text-white font-serif '>burden</span><br></br> It should be a  <span className='text-white font-serif'>breeze</span></p>
         </section>
-        <section className='card flex flex-col md:w-[550px] md:h-[620px] w-[350px] h-[580px] gap-10 justify-center bg-white items-center rounded-xl px-4'>
+        <section className='card  flex flex-col md:w-[550px] md:h-[620px] w-[350px] h-[580px] gap-10 justify-center bg-white items-center rounded-xl px-4'>
           <p className="text-2xl font-bold">Add Listing</p>
           <input type="text" value={name} placeholder="Centre Name" onChange={(e)=>{setName(e.target.value)}} className=" text-lg w-full font-bold  py-5 px-2 rounded-lg border-2 border-gray-600 active:border-6 duration-200 active:border-gray-950" />
           <input type="text" value={location} onChange={(e)=>{setLocation(e.target.value)}} placeholder="Location" className="text-lg w-full font-bold  py-5 px-2 rounded-lg border-2 border-gray-600 active:border-6 duration-200 active:border-gray-950" />
